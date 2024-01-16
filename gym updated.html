@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bmi calc-made by dhruvith</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  #bmiForm {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #555;
+  }
+
+  #result {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  #suggestions {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<h1>BMI Calculator</h1>
+
+<div id="bmiForm">
+  <label for="weight">Weight (kg):</label>
+  <input type="number" id="weight" name="weight" step="0.01" required>
+
+  <label for="height">Height (cm):</label>
+  <input type="number" id="height" name="height" step="0.01" required>
+
+  <button type="button" onclick="calculateBMI()">Calculate BMI</button>
+</div>
+
+<div id="result"></div>
+<div id="suggestions"></div>
+
+<script>
+function calculateBMI() {
+  var weight = parseFloat(document.getElementById("weight").value);
+  var height = parseFloat(document.getElementById("height").value) / 100; // convert cm to meters
+
+  if (isNaN(weight) || isNaN(height)) {
+    document.getElementById("result").innerHTML = "Please enter valid values for weight and height.";
+    return;
+  }
+
+  var bmi = weight / (height * height);
+  var bmiCategory = getBMICategory(bmi);
+
+  var resultMessage = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${bmiCategory}`;
+  document.getElementById("result").innerHTML = resultMessage;
+
+  suggestDietAndExercise(bmiCategory);
+}
+
+function getBMICategory(bmi) {
+  if (bmi < 18.5) {
+    return "Underweight";
+  } else if (bmi < 24.9) {
+    return "Normal weight";
+  } else if (bmi < 29.9) {
+    return "Overweight";
+  } else {
+    return "Obese";
+  }
+}
+
+function suggestDietAndExercise(bmiCategory) {
+  var suggestions = "";
+  switch (bmiCategory) {
+    case "Underweight":
+      suggestions = "Suggestions for underweight individuals:<br>- Increase calorie intake with nutrient-rich foods<br>- Focus on healthy fats, protein, and carbohydrates<br>- Incorporate strength training exercises";
+      break;
+    case "Normal weight":
+      suggestions = "Suggestions for normal weight individuals:<br>- Maintain a balanced diet for overall health<br>- Include a mix of aerobic and strength training exercises";
+      break;
+    case "Overweight":
+      suggestions = "Suggestions for overweight individuals:<br>- Eat a balanced diet with controlled portions<br>- Increase physical activity with regular exercise<br>- Include both cardio and strength training";
+      break;
+    case "Obese":
+      suggestions = "Suggestions for obese individuals:<br>- Focus on a calorie-controlled diet with nutrient-rich foods<br>- Increase physical activity gradually with a mix of exercises<br>- Consider consulting a healthcare professional";
+      break;
+    default:
+      suggestions = "No suggestions available for this BMI category.";
+  }
+
+  document.getElementById("suggestions").innerHTML = suggestions;
+}
+</script>
+
+</body>
+</html>
